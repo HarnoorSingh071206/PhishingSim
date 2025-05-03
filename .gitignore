@@ -170,5 +170,12 @@ cython_debug/
 # Ruff stuff:
 .ruff_cache/
 
+# Ignore config.py (sensitive data)
+config.py
+
+# Ignore database.db (local database file)
+database.db
+
+
 # PyPI configuration file
 .pypirc
