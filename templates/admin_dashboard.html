@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class = "Container">
+<h1>Admin Dashboard</h1>
+
+  <div class="logout-container">
+    <a href="{{ url_for('admin.logout') }}" class="logout-btn">Logout</a>
+  </div>
+
+  <h3>Available Actions</h3>
+  <ul>
+    <div class="button-container">
+    <a href="/admin/campaigns" class="btn">View All Campaigns (JSON)</a>
+    <a href="/admin/export" class="btn">Export Campaigns as CSV</a>
+    <a href="/create" class="btn">Create New Campaign</a>
+    </div>
+  </ul>
+
+  <h3>Campaigns</h3>
+  <ul>
+    {% for campaign in campaigns %}
+      <li>
+        {{ campaign.name }} -
+        <a href="/admin/campaigns/{{ campaign.id }}">Details</a>
+      </li>
+    {% endfor %}
+  </ul>
+  </div>
+</body>
+</html>

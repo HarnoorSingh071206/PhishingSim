@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+  <meta charset="UTF-8">
+  <title>Create Phishing Campaign</title>
+  <link rel="stylesheet" href="/static/style.css">
+
+  <script>
+  async function sendCampaign(event) {
+      event.preventDefault();
+
+      const name = document.getElementById("name").value;
+      const target_email = document.getElementById("target_email").value;
+      const subject = document.getElementById("subject").value;
+      const bodyText = document.getElementById("body").value;
+
+      const baseUrl = "http://127.0.0.1:5000";
+
+      // Step 1: Create the campaign
+      const res = await fetch(`${baseUrl}/campaigns`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, target_email, subject, body: bodyText })
+      });
+
+      const result = await res.json();
+      const campaignId = result.campaign_id;
+
+      if (!campaignId) {
+          alert("Failed to create campaign.");
+          return;
+      }
+
+      alert("Campaign created. Campaign ID: " + campaignId);
+
+      // Step 2: Build the final body with actual links
+      const trackingPixel = `<img src="${baseUrl}/track/open/${campaignId}.png" style="display:none">`;
+      const clickLink = `<a href="${baseUrl}/track/click/${campaignId}">Click here</a>`;
+      const loginPage = `<a href="${baseUrl}/fake_login/${campaignId}">Verify your account</a>`;
+      const finalBody = `${bodyText}<br><br>${trackingPixel}<br>${clickLink}<br>${loginPage}`;
+
+      // Step 3: Send the final email with phishing content
+      const sendRes = await fetch(`${baseUrl}/send_email/${campaignId}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ body: finalBody })
+      });
+
+      const sendResult = await sendRes.json();
+      alert(sendResult.message);
+  }
+</script>
+
+</head>
+<body>
+  <div class = "container">
+  <h2>Create Phishing Campaign</h2>
+  <form onsubmit="sendCampaign(event)">
+    <label>Name: <input type="text" id="name" required></label><br><br>
+    <label>Target Email: <input type="email" id="target_email" required></label><br><br>
+    <label>Subject: <input type="text" id="subject" required></label><br><br>
+    <label>Body:<br><textarea id="body" rows="5" cols="50" required></textarea></label><br><br>
+    <button type="submit" class = "btn">Send Campaign</button>
+  </form>
+  </div>
+</body>
+</html>
