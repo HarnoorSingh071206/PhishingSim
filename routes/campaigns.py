@@ -7,6 +7,7 @@ campaigns_bp = Blueprint('campaigns', __name__)
 
 @campaigns_bp.route('/campaigns', methods=['POST'])
 def create_campaign():
+    print("hello")
     data = request.json
     campaign = Campaign(
         name=data['name'],
@@ -38,5 +39,5 @@ def send_email(campaign_id):
     campaign.sent = True
     db.session.commit()
 
-    return jsonify({'message': 'Email sent with tracking links.'}), 200
+    return jsonify({'message': 'Email sent with tracking links.','success':True}), 200
 

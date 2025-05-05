@@ -17,16 +17,25 @@ def list_campaigns():
         return redirect(url_for('index'))
     campaigns = Campaign.query.all()
     data = [{
-        'id': c.id,
-        'name': c.name,
-        'target_email': c.target_email,
-        'subject': c.subject,
-        'sent': c.sent,
-        'opened': c.opened,
-        'clicked': c.clicked,
-        'submitted': c.submitted
-    } for c in campaigns]
+        'id': campaign.id,
+        'name': campaign.name,
+        'target_email': campaign.target_email,
+        'subject': campaign.subject,
+        'body': campaign.body,
+        'sent': campaign.sent,
+        'opened': campaign.opened,
+        'clicked': campaign.clicked,
+        'submitted': campaign.submitted,
+        'username_submitted' : campaign.submitted_username,
+        'password_submitted' : campaign.submitted_password
+    } for campaign in campaigns]
     return jsonify(data)
+
+@admin_bp.route('/admin/campaigns/view', methods=['GET'])
+def campaigns_page():
+    if not session.get('logged_in'):
+        return redirect(url_for('index'))
+    return render_template('campaigns.html')  # HTML file with JS fetch
 
 
 @admin_bp.route('/dashboard', methods=['GET'])
@@ -55,6 +64,13 @@ def get_campaign(campaign_id):
         'username_submitted' : campaign.submitted_username,
         'password_submitted' : campaign.submitted_password
     })
+
+@admin_bp.route('/admin/campaigns/view/<int:campaign_id>', methods=['GET'])
+def single_campaigns_page(campaign_id):
+    if not session.get('logged_in'):
+        return redirect(url_for('index'))
+    return render_template('single_view.html', campaign_id=campaign_id)
+
 
 @admin_bp.route('/admin/export', methods=['GET'])
 def export_csv():
