@@ -1,7 +1,8 @@
 {
+  "version": 2,
   "builds": [
     {
-      "src": "app.py", // Your Python entry point
+      "src": "app.py",
       "use": "@vercel/python"
     }
   ]
