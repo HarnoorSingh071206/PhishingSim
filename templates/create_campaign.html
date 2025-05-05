@@ -22,7 +22,9 @@
         return;
     }
 
-    const baseUrl = "http://127.0.0.1:5000";
+    const baseUrl = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
+  ? "http://127.0.0.1:5000"
+  : "https://production-server.com";
     let successCount = 0;
     let errorCount = 0;
 
@@ -48,7 +50,7 @@
             console.log(`Campaign created for ${target_email}. Campaign ID: ${campaignId}`);
 
             // Step 2: Build the final body with phishing content (tracking pixel, click link, etc.)
-            const trackingPixel = `<img src="${baseUrl}/track/open/${campaignId}.png" style="display:none">`;
+            const trackingPixel = `<img src="http://localhost:5000/track/open/${campaignId}" style="display:none">`;
             const clickLink = `<a href="${baseUrl}/track/click/${campaignId}">Click here</a>`;
             const loginPage = `<a href="${baseUrl}/fake_login/${campaignId}">Verify your account</a>`;
             const finalBody = `${bodyText}<br><br>${trackingPixel}<br>${clickLink}<br>${loginPage}`;

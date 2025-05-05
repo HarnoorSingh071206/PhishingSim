@@ -4,7 +4,7 @@ from flask import render_template
 
 tracking_bp = Blueprint('tracking', __name__)
 
-@tracking_bp.route('/track/open/<int:campaign_id>.png')
+@tracking_bp.route('/track/open/<int:campaign_id>')
 def track_open(campaign_id):
     campaign = Campaign.query.get_or_404(campaign_id)
     if not campaign:
