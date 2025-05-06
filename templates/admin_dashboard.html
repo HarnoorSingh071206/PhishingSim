@@ -171,7 +171,7 @@
                             </thead>
                             <tbody>
                                 {% if campaigns %}
-                                    {% for campaign in campaigns[:5] %}
+                                    {% for campaign in campaigns[-5:] %}
                                     <tr>
                                         <td>{{ campaign.name }}</td>
                                         <td>{{ campaign.target_email }}</td>
