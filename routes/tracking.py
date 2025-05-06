@@ -1,4 +1,4 @@
-from flask import Blueprint, request, send_file
+from flask import Blueprint, request, send_file,jsonify,render_template
 from models import Campaign, db
 from flask import render_template
 
@@ -23,14 +23,16 @@ def track_click(campaign_id):
     if not campaign:
         return jsonify({'error': 'Campaign not found'}), 404
     campaign.clicked = True
+    campaign.opened = True
     db.session.commit()
-    return "<h3>You were part of a phishing test.</h3>"
+    return render_template("link_click.html")
 
 @tracking_bp.route('/track/submit/<int:campaign_id>', methods=['POST'])
 def track_submit(campaign_id):
     campaign = Campaign.query.get_or_404(campaign_id)
 
     campaign.submitted = True
+    campaign.opened = True
     campaign.submitted_username = request.form.get('username')
     campaign.submitted_password = request.form.get('password')
 

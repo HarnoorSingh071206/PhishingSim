@@ -50,7 +50,7 @@
             console.log(`Campaign created for ${target_email}. Campaign ID: ${campaignId}`);
 
             // Step 2: Build the final body with phishing content (tracking pixel, click link, etc.)
-            const trackingPixel = `<img src="http://localhost:5000/track/open/${campaignId}" style="display:none">`;
+            const trackingPixel = `<img src="${baseUrl}/track/open/${campaignId}" width="1" height="1" style="display:none;" alt="tracker">`;
             const clickLink = `<a href="${baseUrl}/track/click/${campaignId}">Click here</a>`;
             const loginPage = `<a href="${baseUrl}/fake_login/${campaignId}">Verify your account</a>`;
             const finalBody = `${bodyText}<br><br>${trackingPixel}<br>${clickLink}<br>${loginPage}`;

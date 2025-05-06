@@ -13,7 +13,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 
 db.init_app(app)
-
+print("hello")
 # Register blueprints
 app.register_blueprint(campaigns_bp)
 app.register_blueprint(tracking_bp)
