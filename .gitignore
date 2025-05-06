@@ -179,3 +179,5 @@ database.db
 
 # PyPI configuration file
 .pypirc
+
+.idea/
