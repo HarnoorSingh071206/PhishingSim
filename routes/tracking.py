@@ -40,4 +40,4 @@ def track_submit(campaign_id):
 
     print("Captured (simulated):", campaign.submitted_username, campaign.submitted_password)
 
-    return "<h3>Thank you for participating in this awareness exercise.</h3>"
+    return render_template("login.html")
