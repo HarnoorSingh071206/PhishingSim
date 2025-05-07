@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, session, redirect, url_for, render_template
 from models import Campaign,db
 from services.email_service import send_phishing_email
 
@@ -40,4 +40,5 @@ def send_email(campaign_id):
     db.session.commit()
 
     return jsonify({'message': 'Email sent with tracking links.','success':True}), 200
+
 

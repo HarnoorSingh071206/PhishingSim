@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, Response, render_template, session, redirect, url_for
+from flask import Blueprint, jsonify, Response, render_template, session, redirect, url_for,request
 from models import Campaign
 import csv
 import io
@@ -9,7 +9,18 @@ admin_bp = Blueprint('admin', __name__)
 def create_page():
     if not session.get('logged_in'):
         return redirect((url_for('index')))
-    return render_template('create_campaign.html')
+
+    template = request.args.get('template')
+
+    if template == 'password-reset':
+        return render_template('pass_reset.html')
+    elif template == "document-share":
+        return render_template('doc_share.html')
+    elif template == "account-verification":
+        return render_template("acc_verify.html")
+    else:
+        return render_template('create_campaign.html')
+
 
 @admin_bp.route('/admin/campaigns', methods=['GET'])
 def list_campaigns():
@@ -95,3 +106,5 @@ def export_csv():
 def logout():
     session.pop('logged_in', None)
     return redirect(url_for('index'))
+
+
