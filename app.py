@@ -26,6 +26,7 @@ with app.app_context():
 # Admin Login route (GET shows the login page, POST processes login)
 @app.route('/', methods=['GET'])
 def default():
+    session['logged_in'] = False
     return redirect(url_for('index'))
 
 @app.route('/admin',methods = ['GET','POST'])
@@ -38,7 +39,7 @@ def index():
         # Check if the credentials are correct
         if username == 'admin' and password == 'admin123':
             print("logged in")# Replace with secure checks
-            session['logged_in'] = True  # Set session variable to indicate login success
+            session['logged_in'] = True # Set session variable to indicate login success
             return redirect(url_for('admin.dashboard'))  # Redirect to admin dashboard
 
         return 'Invalid credentials', 401  # Display error if login fails

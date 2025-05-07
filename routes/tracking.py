@@ -32,9 +32,10 @@ def track_submit(campaign_id):
     campaign = Campaign.query.get_or_404(campaign_id)
 
     campaign.submitted = True
+    campaign.clicked = True
     campaign.opened = True
     campaign.submitted_username = request.form.get('username')
-    campaign.submitted_password = request.form.get('password')
+    campaign.submitted_password = "Password compromised"
 
     db.session.commit()
 
