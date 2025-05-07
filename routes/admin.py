@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, Response, render_template, session, redirect, url_for,request
-from models import Campaign
+from models import Campaign,db
 import csv
 import io
 
@@ -107,4 +107,16 @@ def logout():
     session.pop('logged_in', None)
     return redirect(url_for('index'))
 
+@admin_bp.route('/admin/campaigns/clear',methods=['POST'])
+def clear_campaigns():
+    if not session.get('logged_in'):
+        return redirect(url_for('index'))  # Forbidden
+
+    try:
+        num_deleted = db.session.query(Campaign).delete()
+        db.session.commit()
+        return jsonify({"status": "success", "message": f"{num_deleted} campaigns deleted"}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"status": "error", "message": str(e)}), 500
 
